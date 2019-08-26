@@ -1,0 +1,19 @@
+<template>
+    <div class="en"></div>
+</template>
+
+<script>
+export default {
+}
+</script>
+
+<style lang="less" scoped>
+    .en{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: url(../../assets/imgs/404.png) no-repeat center/cover
+    }
+</style>
