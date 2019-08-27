@@ -6,7 +6,7 @@
       <div class="logo" :class="{miniLogo:isCollapse}"></div>
       <!-- 导航菜单 -->
       <el-menu
-        default-active="/"
+        :default-active="$route.path"
         class="el-menu-vertical-demo"
         background-color="#002033"
         text-color="#fff"
@@ -50,16 +50,16 @@
         <span class="icon el-icon-s-fold"  @click="toggleAside()"></span>
         <span class="text">江苏传智播客科技教育有限公司</span>
         <!-- 下拉菜单组件 -->
-        <el-dropdown class="my-dropdown">
+        <el-dropdown class="my-dropdown" @command="clickItem">
           <span class="el-dropdown-link">
-            <img class="avatar" src="../../assets/imgs/avatar.jpg" alt="">
-            <span class="name"> 用户名称</span>
+            <img class="avatar" :src="photo" alt="">
+            <span class="name"> {{name}}</span>
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <!-- vue基础知识  插槽 -->
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-setting">个人设置</el-dropdown-item>
-            <el-dropdown-item icon="el-icon-unlock">退出登录</el-dropdown-item>
+          <el-dropdown-menu slot="dropdown" >
+            <el-dropdown-item icon="el-icon-setting" command="setting">个人设置</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-unlock" command="logout">退出登录</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-header>
@@ -70,16 +70,37 @@
   </el-container>
 </template>
 <script>
+import store from '../../store/store'
+// import router from '../../router/index'
 export default {
+
   data () {
     return {
-      isCollapse: false
+      isCollapse: false,
+      name: '',
+      photo: ''
     }
+  },
+  created () {
+    const uers = store.getUser()
+    this.name = uers.name
+    this.photo = uers.photo
   },
   methods: {
     toggleAside () {
       this.isCollapse = !this.isCollapse
+    },
+    setting () {
+      this.$router.push('/setting')
+    },
+    logout () {
+      store.delUser()
+      this.$router.push('/login')
+    },
+    clickItem (command) {
+      this[command]()
     }
+
   }
 }
 </script>

@@ -5,8 +5,8 @@ import Home from '../views/home/home.vue'
 import Wc from '../views/welcome/welcome.vue'
 import NotFound from '../views/404/404.vue'
 import store from '../store/store'
+import Article from '../views/article/article.vue'
 Vue.use(VueRouter)
-
 const router = new VueRouter({
   // 定义路由规则（路径==>组件）
   routes: [
@@ -16,7 +16,10 @@ const router = new VueRouter({
     {
       path: '/',
       component: Home,
-      children: [{ path: '/', name: 'home', component: Wc }]
+      children: [
+        { path: '/', name: 'home', component: Wc },
+        { path: '/article', name: 'article', component: Article }
+      ]
     },
     { path: '*', name: '404', component: NotFound }
   ]

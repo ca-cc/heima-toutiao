@@ -2,7 +2,7 @@
   <div class='container' ref="box">
     <el-card class="my-card">
       <img src="../../assets/imgs/logo_index.png" alt="">
-    <el-form :model="loginForm" :rules="loginRules" ref="hehe">
+    <el-form :model="loginForm" :rules="loginRules" ref="haha">
         <el-form-item prop="mobile">
           <el-input v-model="loginForm.mobile" placeholder="请输入手机号"></el-input>
         </el-form-item>
@@ -26,9 +26,7 @@
 import store from '../../store/store'
 export default {
   mounted () {
-    const haha = this.$refs.box
-    const hehe = this.$refs.hehe.validate
-    console.log(haha)
+    const hehe = this.$refs.haha
     console.log(hehe)
   },
   data () {
@@ -57,16 +55,15 @@ export default {
   },
   methods: {
     login () {
-      this.$refs.hehe.validate((valid) => {
+      this.$refs.haha.validate(async (valid) => {
         if (valid) {
-          this.$http.post('authorizations', this.loginForm)
-            .then(res => {
-              store.setUser(res.data.data)
-              this.$router.push('/')
-            })
-            .catch(() => {
-              this.$message.error('弄错了')
-            })
+          try {
+            const { data: { data } } = await this.$http.post('authorizations', this.loginForm)
+            store.setUser(data)
+            this.$router.push('/')
+          } catch (e) {
+            this.$message.error('手机号或验证码错误')
+          }
         }
       })
     }
